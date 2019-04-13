@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Label x:Name="outputText" Content="Label" HorizontalAlignment="Left" Margin="210,100,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonAccept" Content="Button" HorizontalAlignment="Left" Margin="655,360,0,0" VerticalAlignment="Top" Width="75"/>
 
     </Grid>
 </Window>
