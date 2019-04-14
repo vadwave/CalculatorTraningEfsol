@@ -5,10 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Calculator" Height="297" Width="800">
     <Grid>
-        <Label x:Name="outputText" Content="Label" HorizontalAlignment="Left" Margin="210,100,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="buttonAccept" Content="Button" HorizontalAlignment="Left" Margin="655,360,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="buttonMinus" Content="-" HorizontalAlignment="Left" Margin="672,131,0,0" VerticalAlignment="Top" Width="40" Click="ButtonMinus_Click" Height="40"/>
+        <Label x:Name="outputText" Content="Label1" HorizontalAlignment="Left" Margin="36,35,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="outputText2" Content="Label2" HorizontalAlignment="Left" Margin="35,70,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="outputText3" Content="Label3" HorizontalAlignment="Left" Margin="35,110,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="outputText4" Content="Label4" HorizontalAlignment="Left" Margin="35,154,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="320,45,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="677,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="73"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="677,71,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="73"/>
+        <TextBlock HorizontalAlignment="Left" Margin="657,24,0,0" TextWrapping="Wrap" Text="A" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="657,74,0,0" TextWrapping="Wrap" Text="B" VerticalAlignment="Top"/>
+        <Button x:Name="buttonPlus" Content="+" HorizontalAlignment="Left" Margin="712,131,0,0" VerticalAlignment="Top" Width="40" Click="ButtonPlus_Click" Height="40"/>
+        <Button x:Name="buttonDiv" Content="/" HorizontalAlignment="Left" Margin="672,171,0,0" VerticalAlignment="Top" Width="40" Click="ButtonDiv_Click" Height="40"/>
+        <Button x:Name="buttonMultiple" Content="x" HorizontalAlignment="Left" Margin="712,171,0,0" VerticalAlignment="Top" Width="40" Click="ButtonMultiple_Click" Height="40"/>
+        <Label x:Name="labelOperation" Content="+" HorizontalAlignment="Left" Margin="697,45,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
