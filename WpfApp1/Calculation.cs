@@ -60,7 +60,10 @@ namespace WpfApp1
             int endA = a_s.Length - 1;
             int afterInt = 0;
             bool first = false;
-            int force=0;
+            int force=1;
+            int endInf = 0;
+            bool first_s = false;
+            const string space_c = "  ";
             while (true)
             {
                 if (temp_s == "0" && endA <= i - 1)
@@ -79,8 +82,9 @@ namespace WpfApp1
                         temp_s += a_s[i];
                         afterInt = a_s[i] - '0';
                     }
-                    if (Int32.Parse(temp_s) > b_int)
+                    if (Int32.Parse(temp_s) >= b_int)
                     {
+                        
                         result.Add(MultiplyElem(b_int, Int32.Parse(temp_s)));
                         int ty = Int32.Parse(temp_s);
                         int tx = result[result.Count - 1].Result;
@@ -88,22 +92,47 @@ namespace WpfApp1
                         temp_s = (tc).ToString();
                         totalresult += result[result.Count - 1].Value.ToString();
                         //Steps
-                        div_step.Add("-" + AddSpace((a_s.Length - 1) - force, "  ") + ty);
-                        div_step.Add("  " + AddSpace((a_s.Length - 1) - force, "  ") + tx);
+                        int lenght = (a_s.Length - 1)-((a_s.Length - 1) - force);
+                        if (first_s == false)
+                        {
+                           
+                            div_step.Add("" + AddSpace(lenght, space_c) + a_s);
+                            first_s = true;
+                        }
+                        else
+                        {
+
+                            div_step.Add("" + AddSpace(lenght, space_c) + ty);
+                        }
+                        
+                        div_step.Add("" + AddSpace(lenght, space_c) + tx);
 
 
                         div_result.Add("" + b_int  + " x " + result[result.Count - 1].Value + " = " + tx);
                         div_result.Add("" + ty + " - " + tx + " = " + tc);
+                        force++;
                     }
                     else
                     {
-                        force++;
+                        
                         if(totalresult!="")
                         totalresult += "0";
                     }
                 }
                 else
                 {
+                    if (a_int < b_int && first==false)
+                    {
+                        totalresult += "0.";
+                        first = true;
+                    }
+                    endInf++;
+                    if (endInf == 24)
+                    {
+                        // Не реализовано поиск повторяемых элементов при делении
+                        totalresult=EndInfinity(totalresult);
+                        break;
+                    }
                     afterInt = Int32.Parse(temp_s);
                     if (first == false)
                     {
@@ -130,18 +159,20 @@ namespace WpfApp1
                     if (CheckInfinity(ref totalresult) == true)
                     {
                         string tempes = afterInt.ToString().Remove(afterInt.ToString().Length-1);
-                        div_step.Add("  " + AddSpace(a_s.Length - countMultiple+1, "  ") + tempes);
+                        div_step.Add("" + AddSpace(a_s.Length - countMultiple+1, space_c) + tempes);
                         break;
                     }
                     else
                     {
+                        int lenght = (a_s.Length - 1) - ((a_s.Length - 1) - force);
                         //Шаги
-                        div_step.Add("- " + AddSpace(a_s.Length - countMultiple, "  ") + ty); 
-                        div_step.Add( "  " + AddSpace(a_s.Length - countMultiple,"  ") + tx);//
+                        div_step.Add("" + AddSpace(lenght, space_c) + ty); 
+                        div_step.Add( "" + AddSpace(lenght, space_c) + tx);//
 
 
                         div_result.Add("" + b_int + " x " + result[result.Count - 1].Value + " = " + tx);//
                         div_result.Add("" + ty + " - " + tx + " = " + tc);//
+                        force++;
                     }
                 }
                 i++;
@@ -187,7 +218,22 @@ namespace WpfApp1
             }
             return false;
         }
+        private static string EndInfinity(string result)
+        {
+            int temp = 0;
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i] == '.')
+                {
+                    temp = i;
+                    break;
+                }
+            }
+            result = result.Insert(temp+1, "(");
+            result += ")";
 
+            return result;
+        }
         private static ResultValue MultiplyElem(int multiple, int max)
         {
             int result=0;//результат
@@ -285,6 +331,10 @@ namespace WpfApp1
             }
             double z = a * x;
             return Int32.Parse(z.ToString());
+        }
+        public static bool Check(string a)
+        {
+            return Double.TryParse(a,out double set);
         }
     }
 }

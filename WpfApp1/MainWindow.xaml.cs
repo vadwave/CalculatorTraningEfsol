@@ -20,6 +20,10 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        double a_d;
+        double b_d;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,8 +42,8 @@ namespace WpfApp1
             Calculation.PreSetupDiv(a, b, out int a_int, out int b_int, out int count);
 
             int xsize = a_int.ToString().Length;
-            outputText.Margin = new Thickness(144-((xsize+2)*6), 20, 0, 0);
-            outputText2.Margin = new Thickness(145, 20, 0, 0);
+            outputText.Margin = new Thickness(155-(xsize*12), 20, 0, 0);
+            outputText2.Margin = new Thickness(155, 20, 0, 0);
             outputText3.Margin = new Thickness(360, 20, 0, 0);
             outputText4.Margin = new Thickness(145, 20, 0, 0);
             outputText4.Content = Calculation.AddSpace(temp.Length,"___");
@@ -75,12 +79,12 @@ namespace WpfApp1
             outputText4.Margin = new Thickness(145, 35, 0, 0);
             outputText4.Content = Calculation.AddSpace(temp.Length, "__") + "______";
 
-            for (int i = 1; i < Calculation.div_step.Count; i++)
+            for (int i = 0; i < Calculation.div_step.Count; i++)
             {
                 textBlock.Text += Calculation.div_step[i] + Environment.NewLine;
                 
             }
-            outputText3.Margin = new Thickness(145, 35+(Calculation.div_step.Count*12), 0, 0);
+            outputText3.Margin = new Thickness(145, 35+(Calculation.div_step.Count*15), 0, 0);
             outputText3.Content = Calculation.AddSpace(temp.Length, "__") + "______";
 
             textBlock.Text += "  "+temp;
@@ -88,6 +92,9 @@ namespace WpfApp1
         }
         private void PlusLabel(double a,double b)
         {
+            Clear();
+            string a_s;
+            string b_s;
             string temp = Calculation.Sum(a, b);
             Calculation.PreSetupDiv(a, b, out int a_int, out int b_int, out int count);
             int xsize = temp.ToString().Length;
@@ -97,8 +104,16 @@ namespace WpfApp1
             textBlock.Margin = new Thickness(145, 20, 0, 0);
             textBlock.TextAlignment = TextAlignment.Right;
 
-            string a_s = a_int.ToString().Insert(a_int.ToString().Length-count, ",");
-            string b_s = b_int.ToString().Insert(b_int.ToString().Length - count, ",");
+            if (count == 0)
+            {
+                a_s = a_int.ToString();
+                b_s = b_int.ToString();
+            }
+            else
+            {
+                a_s = a_int.ToString().Insert(a_int.ToString().Length - count, ",");
+                b_s = b_int.ToString().Insert(b_int.ToString().Length - count, ",");
+            }
             textBlock.Text = a_s + Environment.NewLine;
             textBlock.Text += b_s + Environment.NewLine;
             outputText4.Margin = new Thickness(145, 35, 0, 0);
@@ -109,6 +124,9 @@ namespace WpfApp1
         }
         private void MinusLabel(double a, double b)
         {
+            Clear();
+            string a_s;
+            string b_s;
             string temp = Calculation.Minus(a, b);
             Calculation.PreSetupDiv(a, b, out int a_int, out int b_int, out int count);
             int xsize = temp.ToString().Length;
@@ -117,9 +135,17 @@ namespace WpfApp1
 
             textBlock.Margin = new Thickness(145, 20, 0, 0);
             textBlock.TextAlignment = TextAlignment.Right;
-           
-            string a_s = a_int.ToString().Insert(a_int.ToString().Length - count, ",");
-            string b_s = b_int.ToString().Insert(b_int.ToString().Length - count, ",");
+            if (count == 0)
+            {
+                a_s = a_int.ToString();
+                b_s = b_int.ToString();
+            }
+            else
+            {
+                a_s = a_int.ToString().Insert(a_int.ToString().Length - count, ",");
+                b_s = b_int.ToString().Insert(b_int.ToString().Length - count, ",");
+            }
+            
             if (a_int >= b_int)
             {
                 textBlock.Text = a_s + Environment.NewLine;
@@ -140,12 +166,20 @@ namespace WpfApp1
 
         private void ButtonMultiple_Click(object sender, RoutedEventArgs e)
         {
-            MultLabel(2454.43, 45.6);
+            if (Accept())
+            {
+                MultLabel(a_d, b_d);
+                labelOperation.Content = "x";
+            }
         }
 
         private void ButtonDiv_Click(object sender, RoutedEventArgs e)
         {
-            DivLabel(4124, 40);
+            if (Accept())
+            {
+                DivLabel(a_d, b_d);
+                labelOperation.Content = "/";
+            }
         }
         private void Clear()
         {
@@ -158,12 +192,38 @@ namespace WpfApp1
 
         private void ButtonPlus_Click(object sender, RoutedEventArgs e)
         {
-            PlusLabel(2454.43, 45.6);
+            if (Accept())
+            {
+                PlusLabel(a_d, b_d);
+                labelOperation.Content = "+";
+            }
         }
 
         private void ButtonMinus_Click(object sender, RoutedEventArgs e)
         {
-            MinusLabel(45.6, 2454.43);
+            if (Accept())
+            {
+                MinusLabel(a_d, b_d);
+                labelOperation.Content = "-";
+            }
+
+        }
+        private bool Accept()
+        {
+            string a = inputA.Text;
+            string b = inputB.Text;
+            if (Calculation.Check(a) && Calculation.Check(b))
+            {
+                a_d = Double.Parse(a);
+                b_d = Double.Parse(b);
+                return true;
+            }
+            else
+            {
+                
+                MessageBox.Show("Введите десятичные или целые числа");
+                return false;
+            }
         }
     }
 }
